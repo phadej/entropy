@@ -25,13 +25,14 @@ tested-with:    GHC == 8.2.2
 extra-source-files:   ./cbits/getrandom.c ./cbits/random_initialized.c ./cbits/rdrand.c, ./cbits/rdrand.h, README.md
 
 custom-setup
-  setup-depends: Cabal >= 1.10 && < 3.7
+  setup-depends: Cabal >= 1.10 && < 3.9
                , base < 5
                , filepath < 1.5
                , directory < 1.4
                , process < 1.7
 
 library
+  hs-source-dirs: src
   ghc-options:  -O2
   exposed-modules: System.Entropy
   if impl(ghcjs) || os(ghcjs)
@@ -73,6 +74,12 @@ library
       c-sources: cbits/getrandom.c cbits/random_initialized.c
   }
 
+test-suite spec
+  default-language:    Haskell2010
+  type: exitcode-stdio-1.0
+  main-is: spec.hs
+  hs-source-dirs: test
+  build-depends: base, entropy
 
 source-repository head
     type:       git
